@@ -1,0 +1,54 @@
+<!-- templates/seminario/instituciones_list.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Instituciones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+    <h1 class="mb-4">Lista de Instituciones</h1>
+    <form method="GET" action="{% url 'instituciones-list' %}">
+        <label for="search_id">Buscar por ID:</label>
+        <input type="number" id="search_id" name="id">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+        <a class="btn btn-primary" href="/instituciones">Restaurar</a>
+    </form>
+    {% if instituciones %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for institucion in instituciones %}
+                    <tr>
+                        <td>{{ institucion.id }}</td>
+                        <td>{{ institucion.nombre_institucion }}</td>
+                        <td>{{ institucion.telefono_institucion }}</td>
+                        <td>{{ institucion.direccion_institucion }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if id_searched and not instituciones %}
+            <div class="alert alert-danger" role="alert">
+                ID no Existente
+            </div>
+        {% endif %}
+    {% else %}
+        {% if id_searched %}
+            <div class="alert alert-danger" role="alert">
+                ID no Existente
+            </div>
+        {% endif %}
+    {% endif %}
+    <a class="btn btn-success mt-3" href="/instituciones/agregar/">Agregar Institución</a>
+    <a class="btn btn-secondary mt-3" href="/">Volver a la Página Principal</a>
+</body>
+</html>
